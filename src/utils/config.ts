@@ -1,4 +1,4 @@
-export const baseURL: string = "https://backend.jojolive.in/";
+export const baseURL: string = "https://backend.qloto.net/";
 export const key: string = "X9fA7pQm2LrT8wZsB4cD1vH6jK0nE3yR";
 export const projectName: string = "JoJoLive";
 export const apiKey: string = "AIzaSyBvoazlUdUwnIcM1kGcI93jU7qHENR1Kik";
