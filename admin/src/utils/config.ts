@@ -1,0 +1,10 @@
+export const baseURL: string = "https://jojolive-backend-production.up.railway.app/";
+export const key: string = "X9fA7pQm2LrT8wZsB4cD1vH6jK0nE3yR";
+export const projectName: string = "JoJoLive";
+export const apiKey: string = "AIzaSyDWiqZ-L50RI3W6qOyo-KC7EEnAe_prPvk";
+export const authDomain: string = "jojo-live-fbc27.firebaseapp.com";
+export const projectId: string = "jojo-live-fbc27";
+export const storageBucket: string = "jojo-live-fbc27.firebasestorage.app";
+export const messagingSenderId: string = "351334401467";
+export const appId: string = "1:351334401467:web:1d5738ce787c1ca575709e";
+export const measurementId: string = "G-V90Q9HCB68";
