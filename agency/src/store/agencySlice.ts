@@ -10,21 +10,21 @@ interface UserState {
   agency: any[];
   totalagencyWiseHost: number;
   agencyWiseHost: any[];
-  totalAgencyEarning : number;
+  totalAgencyEarning: number;
   total: number;
   isLoading: boolean;
   isSkeleton: boolean;
-  agencyEarningHistory : any[];
-  totalAgencyEarningHistory : number;
+  agencyEarningHistory: any[];
+  totalAgencyEarningHistory: number;
 }
 
 const initialState: UserState = {
   agency: [],
   agencyWiseHost: [],
   totalagencyWiseHost: 0,
-  totalAgencyEarning : 0,
-  agencyEarningHistory : [],
-  totalAgencyEarningHistory : 0,
+  totalAgencyEarning: 0,
+  agencyEarningHistory: [],
+  totalAgencyEarningHistory: 0,
   total: 0,
   isLoading: false,
   isSkeleton: false,
@@ -39,8 +39,8 @@ interface AllImpressionPayload {
   endDate: string;
 }
 
-const token = typeof window !== "undefined" && sessionStorage.getItem("token");
-const uid = typeof window !== "undefined" && sessionStorage.getItem(("uid"));
+const token = typeof window !== "undefined" && localStorage.getItem("token");
+const uid = typeof window !== "undefined" && localStorage.getItem(("uid"));
 
 export const getAllAgency: any = createAsyncThunk(
   "api/admin/agency/getAgencies",
@@ -84,7 +84,7 @@ export const updateAgency = createAsyncThunk(
 export const blockonlinebusyHost: any = createAsyncThunk(
   "api/agency/host/modifyHostBlockStatus?hostId",
   async (payload: any) => {
-      return apiInstanceFetch.patch(`api/agency/host/modifyHostBlockStatus?hostId=${payload?.hostId}`);
+    return apiInstanceFetch.patch(`api/agency/host/modifyHostBlockStatus?hostId=${payload?.hostId}`);
   }
 );
 
@@ -103,7 +103,7 @@ export const agencyLogin = createAsyncThunk(
   }
 );
 
-export const getAgencyEarningHistory : any = createAsyncThunk(
+export const getAgencyEarningHistory: any = createAsyncThunk(
   "api/admin/history",
   async (payload: any) => {
     return apiInstanceFetch.get(`api/agency/history/retrieveAgencyEarnings?startDate=${payload?.startDate}&endDate=${payload?.endDate}&start=${payload?.start}&limit=${payload?.limit}`);
@@ -133,13 +133,13 @@ const agencySlice = createSlice({
       state.isSkeleton = false;
     });
 
-      builder.addCase(getAgencyEarningHistory.pending, (state, action: PayloadAction<any>) => {
+    builder.addCase(getAgencyEarningHistory.pending, (state, action: PayloadAction<any>) => {
       state.isSkeleton = true;
     });
     builder.addCase(
       getAgencyEarningHistory.fulfilled,
       (state, action: PayloadAction<any>) => {
-        
+
         state.isSkeleton = false;
         state.agencyEarningHistory = action.payload.data;
         state.totalAgencyEarningHistory = action.payload.total;
@@ -158,11 +158,11 @@ const agencySlice = createSlice({
     builder.addCase(
       agencyLogin.fulfilled,
       (state: any, action: any) => {
-        
+
         state.isLoading = false;
         if (action.payload && action?.payload?.status !== false) {
 
-          const token: any = sessionStorage.getItem("token");
+          const token: any = localStorage.getItem("token");
 
           setTimeout(() => {
             window.location.href = "/dashboard";
@@ -172,11 +172,11 @@ const agencySlice = createSlice({
           // const token = action.payload.data.data;
           const decodedToken: any = jwtDecode(token);
           state.isAuth = true;
-          sessionStorage.setItem("isAuth", state.isAuth);
+          localStorage.setItem("isAuth", state.isAuth);
           state.admin = decodedToken;
           setToken(action.payload.data);
           SetDevKey(key);
-          sessionStorage.setItem("agency_", JSON.stringify(decodedToken));
+          localStorage.setItem("agency_", JSON.stringify(decodedToken));
         } else {
           DangerRight(action.payload?.data?.message || action?.payload?.message);
         }
@@ -196,7 +196,7 @@ const agencySlice = createSlice({
     builder.addCase(
       getAgencyWiseHost.fulfilled,
       (state, action: PayloadAction<any>) => {
-        
+
         state.isSkeleton = false;
         state.agencyWiseHost = action.payload.hosts;
         state.totalagencyWiseHost = action.payload.total
@@ -254,49 +254,49 @@ const agencySlice = createSlice({
       state.isLoading = false;
     });
 
-      builder.addCase(
-                blockonlinebusyHost.pending,
-                (state, action: PayloadAction<any>) => {
-                    state.isLoading = true;
-                }
-            );
-    
-            builder.addCase(
-                blockonlinebusyHost.fulfilled,
-                (state, action: any) => {
-                  if (action?.payload?.status) {
-                    
-                    const updateData = action?.payload?.data;
-              
-                    const dataIndex = state?.agencyWiseHost?.findIndex(
-                      (host) => host?._id === updateData?._id
-                    );
-              
-                    if (dataIndex !== -1) {
-                        
-                      state.agencyWiseHost[dataIndex].isBlock = updateData?.isBlock;
-                    }
-              
-                    const type = action?.meta?.arg?.type;
-              
-                    if (type === "isBlock") {
-                      updateData?.isBlock
-                        ? Success("Host Blocked Successfully")
-                        : Success("Host Unblocked Successfully");
-                    } 
-              
-                  } else {
-                    DangerRight(action?.payload?.message || "Something went wrong");
-                  }
-              
-                  state.isLoading = false;
-                }
-              );
-              
-    
-            builder.addCase(blockonlinebusyHost.rejected, (state, action) => {
-                state.isLoading = false;
-            });
+    builder.addCase(
+      blockonlinebusyHost.pending,
+      (state, action: PayloadAction<any>) => {
+        state.isLoading = true;
+      }
+    );
+
+    builder.addCase(
+      blockonlinebusyHost.fulfilled,
+      (state, action: any) => {
+        if (action?.payload?.status) {
+
+          const updateData = action?.payload?.data;
+
+          const dataIndex = state?.agencyWiseHost?.findIndex(
+            (host) => host?._id === updateData?._id
+          );
+
+          if (dataIndex !== -1) {
+
+            state.agencyWiseHost[dataIndex].isBlock = updateData?.isBlock;
+          }
+
+          const type = action?.meta?.arg?.type;
+
+          if (type === "isBlock") {
+            updateData?.isBlock
+              ? Success("Host Blocked Successfully")
+              : Success("Host Unblocked Successfully");
+          }
+
+        } else {
+          DangerRight(action?.payload?.message || "Something went wrong");
+        }
+
+        state.isLoading = false;
+      }
+    );
+
+
+    builder.addCase(blockonlinebusyHost.rejected, (state, action) => {
+      state.isLoading = false;
+    });
 
 
     builder.addCase(

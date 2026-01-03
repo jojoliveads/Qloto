@@ -43,10 +43,10 @@ const PendingWithdrawReq = (props: any) => {
     statusType === "pending_Request"
       ? 1
       : statusType === "accepted_Request"
-      ? 2
-      : statusType === "declined_Request"
-      ? 3
-      : null;
+        ? 2
+        : statusType === "declined_Request"
+          ? 3
+          : null;
 
   const { withDrawal, totalWithdrawal } = useSelector(
     (state: RootStore) => state.withdrawal
@@ -121,7 +121,7 @@ const PendingWithdrawReq = (props: any) => {
   };
 
   const handleAcceptRequest = async () => {
-    
+
     if (selectedId) {
       const payload = {
         requestId: selectedId?._id,
@@ -194,10 +194,10 @@ const PendingWithdrawReq = (props: any) => {
         const formattedDate = isNaN(date.getTime())
           ? "-"
           : date.toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            });
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          });
         return <span className="text-nowrap text-normal">{formattedDate}</span>;
       },
     },
@@ -221,110 +221,6 @@ const PendingWithdrawReq = (props: any) => {
         </button>
       ),
     },
-
-    // ✅ Conditionally include "Accepted" only if type is agency
-
-    {
-      Header: "Action",
-      Cell: ({ row }: { row: any }) => (
-        <div className="d-flex justify-content-center">
-          <button
-            className="me-2"
-            style={{
-              backgroundColor: "#D6FFD7",
-              borderRadius: "8px",
-              padding: "8px",
-            }}
-            onClick={() => handleActionAccept(row)}
-          >
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 30 30"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 27.5C21.9036 27.5 27.5 21.9036 27.5 15C27.5 8.09644 21.9036 2.5 15 2.5C8.09644 2.5 2.5 8.09644 2.5 15C2.5 21.9036 8.09644 27.5 15 27.5Z"
-                stroke="#09C50C"
-                strokeWidth="2"
-              />
-              <path
-                d="M10.625 15.625L13.125 18.125L19.375 11.875"
-                stroke="#09C50C"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <button
-            style={{
-              backgroundColor: "#FFE7E7",
-              borderRadius: "8px",
-              padding: "8px",
-            }}
-            onClick={() => handleActionDeclined(row)}
-          >
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 30 30"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 27.5C21.9036 27.5 27.5 21.9036 27.5 15C27.5 8.09644 21.9036 2.5 15 2.5C8.09644 2.5 2.5 8.09644 2.5 15C2.5 21.9036 8.09644 27.5 15 27.5Z"
-                stroke="#FF0000"
-                strokeWidth="2"
-              />
-              <path
-                d="M18.125 11.875L11.875 18.125M11.875 11.875L18.125 18.125"
-                stroke="#FF0000"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-        </div>
-      ),
-    },
-
-    // ✅ Conditionally include "Declined" only if type is agency
-
-    // {
-    //   Header: "Declined",
-    //   Cell: ({ row }: { row: any }) => (
-    //     <button
-    //       style={{
-    //         backgroundColor: "#FFE7E7",
-    //         borderRadius: "8px",
-    //         padding: "8px",
-    //       }}
-    //       onClick={() => handleActionDeclined(row)}
-    //     >
-    //       <svg
-    //         width="22"
-    //         height="22"
-    //         viewBox="0 0 30 30"
-    //         fill="none"
-    //         xmlns="http://www.w3.org/2000/svg"
-    //       >
-    //         <path
-    //           d="M15 27.5C21.9036 27.5 27.5 21.9036 27.5 15C27.5 8.09644 21.9036 2.5 15 2.5C8.09644 2.5 2.5 8.09644 2.5 15C2.5 21.9036 8.09644 27.5 15 27.5Z"
-    //           stroke="#FF0000"
-    //           strokeWidth="2"
-    //         />
-    //         <path
-    //           d="M18.125 11.875L11.875 18.125M11.875 11.875L18.125 18.125"
-    //           stroke="#FF0000"
-    //           strokeWidth="2"
-    //           strokeLinecap="round"
-    //         />
-    //       </svg>
-    //     </button>
-    //   ),
-    // },
   ].filter(Boolean); // ✅ This removes all `undefined` values
 
   const handleCloseInfo = () => {

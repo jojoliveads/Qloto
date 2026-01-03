@@ -16,7 +16,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function App({ Component, pageProps }) {
   const getToken =
-    typeof window !== "undefined" && sessionStorage.getItem("token");
+    typeof window !== "undefined" && localStorage.getItem("token");
   const getLayout = Component.getLayout || ((page) => page);
   axios.defaults.baseURL = baseURL;
   axios.defaults.headers.common["key"] = key;

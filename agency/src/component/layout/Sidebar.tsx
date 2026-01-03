@@ -27,11 +27,11 @@ const Sidebar = () => {
   };
 
   const confirmLogout = async () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("admin");
-    sessionStorage.removeItem("key");
-    sessionStorage.removeItem("isAuth");
-    sessionStorage.setItem("isAgency", "false");
+    localStorage.removeItem("token");
+    localStorage.removeItem("admin");
+    localStorage.removeItem("key");
+    localStorage.removeItem("isAuth");
+    localStorage.setItem("isAgency", "false");
     setTimeout(() => {
       router.push("/");
     }, 1000);
@@ -64,7 +64,6 @@ const Sidebar = () => {
       path2: "/HostProfile",
       navSVG: <HostRequest />,
     },
-
     {
       name: "Host",
       path: "/Host",
@@ -162,7 +161,7 @@ const Sidebar = () => {
     {
       name: "LogOut",
       navSVG: (
-       <LogOut />
+        <LogOut />
       ),
       onClick: handleLogout,
     },
@@ -198,7 +197,7 @@ const Sidebar = () => {
                     fontSize: "22px",
                     margin: "0px !important",
                   }}
-                  // onClick={() => router("/admin/adminDashboard")}
+                // onClick={() => router("/admin/adminDashboard")}
                 >
                   {projectName}
                 </h3>

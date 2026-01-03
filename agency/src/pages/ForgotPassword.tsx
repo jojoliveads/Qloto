@@ -9,7 +9,7 @@ import { useAppDispatch } from "@/store/store";
 import { useRouter } from "next/router";
 import { login, sendEmailandForgotPassword } from "@/store/adminSlice";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import  {auth}  from "../component/lib/firebaseConfig";
+import { auth } from "../component/lib/firebaseConfig";
 
 interface RootState {
   admin: {
@@ -59,7 +59,7 @@ export default function ForgotPassword() {
       const token = await userCredential.user.getIdToken(true); // ✅ Force refresh
 
       // Store token in localStorage or sessionStorage
-      sessionStorage.setItem("token", token);
+      localStorage.setItem("token", token);
 
       return token;
     } catch (error: any) {
@@ -110,10 +110,10 @@ export default function ForgotPassword() {
                   }}
                 />
               </div>
-          
-              
+
+
               <div className="loginButton d-flex gx-2 justify-content-center" >
-               
+
                 <Button
                   type={`submit`}
                   className={`bg-theme text-light cursor m10-top col-6 mx-2`}

@@ -31,8 +31,8 @@ interface ApiResponseError {
 }
 
 const getTokenData = (): string | null => {
-  if (typeof sessionStorage !== "undefined") {
-    return sessionStorage.getItem("token");
+  if (typeof localStorage !== "undefined") {
+    return localStorage.getItem("token");
   }
   return null;
 };
@@ -105,11 +105,11 @@ const handleErrors = async (response: Response): Promise<any> => {
       console.log("data.message", data.message);
     }
 
-    if (response.status === 401 ) {
+    if (response.status === 401) {
       console.warn("User session expired. Logging out...");
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("admin");
-      sessionStorage.removeItem("key");
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
+      localStorage.removeItem("key");
       window.location.href = "/"; // Redirect to login page
     }
 
@@ -117,7 +117,7 @@ const handleErrors = async (response: Response): Promise<any> => {
     if (data.code === "E_USER_NOT_FOUND" || data.code === "E_UNAUTHORIZED") {
       // Handling authentication errors more gracefully
     }
-    
+
     return Promise.reject(data);
   }
 
@@ -129,7 +129,7 @@ const getHeaders = (isFormData = false): { [key: string]: string } => {
   let headers: { [key: string]: string } = {
     key,
     Authorization: token ? `Bearer ${token}` : "",
-    "x-agency-uid": sessionStorage.getItem("uid") || "",
+    "x-agency-uid": localStorage.getItem("uid") || "",
   };
 
   // ✅ Only add "Content-Type" if NOT FormData

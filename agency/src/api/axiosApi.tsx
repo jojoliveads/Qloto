@@ -16,8 +16,8 @@ interface ApiResponseError {
 
 // const getTokenData = (): string | null => localStorage.getItem("token");
 const getTokenData = (): string | null => {
-  if (typeof sessionStorage !== "undefined") {
-    return sessionStorage.getItem("token");
+  if (typeof localStorage !== "undefined") {
+    return localStorage.getItem("token");
   }
   return null;
 };

@@ -10,8 +10,16 @@ const nextConfig = {
         port: "6006",
         pathname: "/storage/**",
       }
-     
+
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:3000/api/:path*',
+      },
+    ];
   },
 };
 

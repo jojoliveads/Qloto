@@ -237,10 +237,10 @@ const PendingHostRequest = (props: any) => {
         const formattedDate = isNaN(date.getTime())
           ? "-"
           : date.toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            });
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          });
         return <span className="text-nowrap text-normal">{formattedDate}</span>;
       },
     },
@@ -262,57 +262,6 @@ const PendingHostRequest = (props: any) => {
         </div>
       ),
     },
-
-    // {
-    //     Header: "Assign Agency",
-    //     Cell: ({ row }: { row: any }) => (
-
-    //         <span className="d-flex justify-content-center">
-    //             <button
-    //                 className="py-1 me-2"
-    //                 style={{ backgroundColor: "#CDE7FF", borderRadius: "8px" }}
-    //                 onClick={() => handleOpenAgencyDialog(row)}
-    //             >
-    //                 <img
-    //                     src={agencyImage.src}
-    //                     alt="Agency-Image"
-    //                     height={26}
-    //                     width={26}
-    //                 />
-    //             </button>
-    //         </span>
-
-    //     )
-    // },
-
-    {
-      Header: "Action",
-      Cell: ({ row }: { row: SuggestedServiceData }) => (
-        <div className="d-flex">
-          <button
-            className="me-3"
-            style={{
-              backgroundColor: "#D6FFD7",
-              borderRadius: "8px",
-              padding: "8px",
-            }}
-            onClick={() => handleActionAccept(row)}
-          >
-            <img src={accept.src} height={22} width={22} alt="Accept" />
-          </button>
-          <button
-            style={{
-              backgroundColor: "#FFE7E7",
-              borderRadius: "8px",
-              padding: "8px",
-            }}
-            onClick={() => handleOpenWithdrawDialogue(row)}
-          >
-            <img src={decline.src} height={22} width={22} alt="Decline" />
-          </button>
-        </div>
-      ),
-    },
   ];
   return (
     <div className="mainCategory">
@@ -326,7 +275,7 @@ const PendingHostRequest = (props: any) => {
       />
 
       <div>
-        
+
         <Table
           data={hostRequest}
           mapData={pendingHostRequest}

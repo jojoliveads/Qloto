@@ -25,9 +25,9 @@ const initialState: UserState = {
   admin: {},
   isLoading: false,
   countryData: [],
-  demoCred : {
-    email : '',
-    password : ""
+  demoCred: {
+    email: '',
+    password: ""
   }
 };
 
@@ -42,8 +42,8 @@ interface AllUsersPayload {
   type?: string;
 }
 
-const token = typeof window !== "undefined" && sessionStorage.getItem("token");
-const uid = typeof window !== "undefined" && sessionStorage.getItem(("uid"));
+const token = typeof window !== "undefined" && localStorage.getItem("token");
+const uid = typeof window !== "undefined" && localStorage.getItem(("uid"));
 
 
 export const signUpAdmin = createAsyncThunk(
@@ -99,7 +99,7 @@ export const agencyProfileUpdate: any = createAsyncThunk(
   "api/agency/modifyAgency",
   async (payload: any) => {
     console.log("payload", payload);
-    
+
     return apiInstanceFetch.patch(`api/agency/modifyAgency?agencyId=${payload?.agencyId}`, payload?.data);
   }
 );
@@ -123,9 +123,9 @@ const adminSlice = createSlice({
   initialState,
   reducers: {
     logoutApi(state: any) {
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("admin");
-      sessionStorage.removeItem("key");
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
+      localStorage.removeItem("key");
       state.admin = {};
       state.isAuth = false;
 
@@ -167,22 +167,22 @@ const adminSlice = createSlice({
     builder.addCase(
       login.fulfilled,
       (state: any, action: any) => {
-          
+
         state.isLoading = false;
         if (action.payload && action?.payload?.status !== false) {
-          const token: any = sessionStorage.getItem("token");
+          const token: any = localStorage.getItem("token");
           setToast("success", "Login Successfully");
           // const token = action.payload.data.data;
           const decodedToken: any = jwtDecode(token);
 
           state.isAuth = true;
-          sessionStorage.setItem("isAuth", state.isAuth);
+          localStorage.setItem("isAuth", state.isAuth);
           state.admin = decodedToken;
           setToken(action.payload.data);
           SetDevKey(key);
-          sessionStorage.setItem("admin_", JSON.stringify(decodedToken));
+          localStorage.setItem("admin_", JSON.stringify(decodedToken));
           const encrypted = CryptoJS.AES.encrypt(action?.meta?.arg?.password, key).toString();
-          sessionStorage.setItem("data", encrypted)
+          localStorage.setItem("data", encrypted)
           setTimeout(() => {
 
             window.location.href = "/dashboard";
@@ -252,29 +252,29 @@ const adminSlice = createSlice({
     );
 
     builder
-    .addCase(agencyProfileUpdate.pending, (state : any) => {
-      state.isSkeleton = true;
-    })
-    .addCase(agencyProfileUpdate.fulfilled, (state : any, action: PayloadAction<any>) => {
-      state.isSkeleton = false;
-      if (action.payload?.status === true) {
-        state.admin = action.payload.data;
-        setToast("success", "Agency Profile Update Successful");
-      } else {
-        
-        setToast("error", action.payload.data?.message || action.payload.message);
-      }
-    })
-    .addCase(agencyProfileUpdate.rejected, (state : any, action: PayloadAction<any>) => {
-      
-      state.isSkeleton = false;
-      console.error('Error:', action.payload);
-      setToast("error", "Something went wrong. Try again!");
-    });
-  
+      .addCase(agencyProfileUpdate.pending, (state: any) => {
+        state.isSkeleton = true;
+      })
+      .addCase(agencyProfileUpdate.fulfilled, (state: any, action: PayloadAction<any>) => {
+        state.isSkeleton = false;
+        if (action.payload?.status === true) {
+          state.admin = action.payload.data;
+          setToast("success", "Agency Profile Update Successful");
+        } else {
+
+          setToast("error", action.payload.data?.message || action.payload.message);
+        }
+      })
+      .addCase(agencyProfileUpdate.rejected, (state: any, action: PayloadAction<any>) => {
+
+        state.isSkeleton = false;
+        console.error('Error:', action.payload);
+        setToast("error", "Something went wrong. Try again!");
+      });
 
 
- 
+
+
 
     builder.addCase(
       updateAdminPassword.pending,
