@@ -1,0 +1,6 @@
+admin/jojo-live-fbc27-firebase-adminsdk-*.json
+
+node_modules/
+.env
+.DS_Store
+backend/setting.js
