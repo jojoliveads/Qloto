@@ -6,35 +6,49 @@ const app = express();
 const cors = require("cors");
 
 // Strict CORS for frontend domains
-const corsOptions = {
-  origin: [
-    "http://localhost:5001",          // your local frontend
-    "http://localhost:5002",          // agency local
-    "http://localhost:3000",
-    "https://jojolive.vercel.app",    // your deployed frontend
-    "https://jojolive.in",
-    "https://qloto.net",
-    "https://agency.qloto.net",
-    "https://admin.qloto.net",
-    "https://agency.jojolive.in",
-    "https://appadmin.jojolive.in",
-    "https://admin.jojolive.in",
-    "https://jojolive-admin.up.railway.app",
-    "https://jojolive-backend.up.railway.app",
-    "https://admin-brown-phi.vercel.app",    // new Vercel admin
-    "https://agency-jojos-projects-017c4652.vercel.app"  // new Vercel agency
-  ],
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "key", "x-admin-uid", "x-agency-uid"],
-  credentials: true,
-};
-
 app.use((req, res, next) => {
-  console.log(`📡 [CORS DEBUG] Origin: ${req.headers.origin} | Method: ${req.method} | URL: ${req.url}`);
+  const origin = req.headers.origin;
+  console.log(`📡 [CORS DEBUG] Request from Origin: ${origin} | Method: ${req.method} | URL: ${req.url}`);
   next();
 });
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log(`🔍 [CORS CHECK] Incoming Origin: ${origin}`);
+    // Check if origin is in our allowed list
+    const allowedOrigins = [
+      "http://localhost:5001",
+      "http://localhost:5002",
+      "http://localhost:3000",
+      "https://jojolive.vercel.app",
+      "https://jojolive.in",
+      "https://qloto.net",
+      "https://agency.qloto.net",
+      "https://admin.qloto.net",
+      "https://agency.jojolive.in",
+      "https://appadmin.jojolive.in",
+      "https://admin.jojolive.in",
+      "https://jojolive-admin.up.railway.app",
+      "https://jojolive-backend.up.railway.app",
+      "https://admin-brown-phi.vercel.app",
+      "https://agency-jojos-projects-017c4652.vercel.app"
+    ];
+
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.warn(`🚨 [CORS BLOCKED] Origin ${origin} not in allowed list.`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "key", "x-admin-uid", "x-agency-uid", "origin", "accept"],
+  credentials: true,
+  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// No need for separate app.options("*", cors(corsOptions)) if app.use(cors()) is used first
 app.use(express.json());
 
 //logging middleware
