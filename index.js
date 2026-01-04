@@ -49,6 +49,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 // No need for separate app.options("*", cors(corsOptions)) if app.use(cors()) is used first
+app.get("/api/version", (req, res) => {
+  res.status(200).json({ version: "1.0.1", timestamp: new Date().toISOString() });
+});
+
 app.use(express.json());
 
 //logging middleware
