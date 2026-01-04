@@ -14,37 +14,13 @@ app.use((req, res, next) => {
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log(`🔍 [CORS CHECK] Incoming Origin: ${origin}`);
-    // Check if origin is in our allowed list
-    const allowedOrigins = [
-      "http://localhost:5001",
-      "http://localhost:5002",
-      "http://localhost:3000",
-      "https://jojolive.vercel.app",
-      "https://jojolive.in",
-      "https://qloto.net",
-      "https://agency.qloto.net",
-      "https://admin.qloto.net",
-      "https://agency.jojolive.in",
-      "https://appadmin.jojolive.in",
-      "https://admin.jojolive.in",
-      "https://jojolive-admin.up.railway.app",
-      "https://jojolive-backend.up.railway.app",
-      "https://admin-brown-phi.vercel.app",
-      "https://agency-jojos-projects-017c4652.vercel.app"
-    ];
-
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.warn(`🚨 [CORS BLOCKED] Origin ${origin} not in allowed list.`);
-      callback(new Error('Not allowed by CORS'));
-    }
+    // allow all origins
+    callback(null, true);
   },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "key", "x-admin-uid", "x-agency-uid", "origin", "accept"],
   credentials: true,
-  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
