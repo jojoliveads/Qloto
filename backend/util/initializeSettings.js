@@ -1,8 +1,8 @@
 // import model
 const Setting = require("../models/setting.model");
 
-// local fallback
-const settingJson = require("../setting");
+// local fallback (removed to prevent crash if file missing)
+// const settingJson = require("../setting");
 
 // helper to safely log settings (no secrets)
 function logSettings(setting) {
