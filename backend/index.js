@@ -29,8 +29,12 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use((req, res, next) => {
+  console.log(`📡 [CORS DEBUG] Origin: ${req.headers.origin} | Method: ${req.method} | URL: ${req.url}`);
+  next();
+});
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // IMPORTANT for preflight
+app.options("*", cors(corsOptions));
 app.use(express.json());
 
 //logging middleware
